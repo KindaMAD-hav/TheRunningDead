@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shmovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float playerSpeed = 6;
+    public float lateralPlayerSpeed = 4;
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        transform.Translate(Vector3.forward * Time.deltaTime * playerSpeed, Space.World);
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(Vector3.left * Time.deltaTime * lateralPlayerSpeed);
+        }
+        if (Input.GetKey(KeyCode.D)){
+
+            transform.Translate(Vector3.right * Time.deltaTime * lateralPlayerSpeed * -1);
+        }
     }
 }
