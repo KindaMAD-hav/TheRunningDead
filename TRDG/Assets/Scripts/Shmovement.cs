@@ -32,6 +32,10 @@ public class Shmovement : MonoBehaviour
         // Disable the controls when the object is inactive
         controls.Disable();
     }
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
