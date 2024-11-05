@@ -6,12 +6,27 @@ public class Shmovement : MonoBehaviour
     public float playerSpeed = 6;
     public float lateralPlayerSpeed = 4;
 
+    private PlayerControls controls; // Reference to the Input Action asset
     private Vector2 movementInput;
 
-    // Called when the player moves
-    public void OnMove(InputValue value)
+    private void Awake()
     {
-        movementInput = value.Get<Vector2>();
+        // Initialize and enable the controls
+        controls = new PlayerControls();
+        controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+    }
+
+    private void OnEnable()
+    {
+        // Enable the controls when the object is active
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        // Disable the controls when the object is inactive
+        controls.Disable();
     }
 
     void Update()
@@ -20,11 +35,11 @@ public class Shmovement : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * playerSpeed, Space.World);
 
         // Lateral movement
-        if (movementInput.x < 0) // A key or left
+        if (movementInput.x < 0) // Left
         {
             transform.Translate(Vector3.left * Time.deltaTime * lateralPlayerSpeed, Space.World);
         }
-        if (movementInput.x > 0) // D key or right
+        if (movementInput.x > 0) // Right
         {
             transform.Translate(Vector3.right * Time.deltaTime * lateralPlayerSpeed, Space.World);
         }
